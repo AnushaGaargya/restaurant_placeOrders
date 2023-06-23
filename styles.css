@@ -1,0 +1,38 @@
+/* .mb-3{
+    width: 300px;
+} */
+
+body{
+  background-color: #EDFDFB;
+  background-image: url("bg.jpg");
+}
+
+.main {
+    width: 500px;
+    height: 400px; 
+    background-color:#9DC183;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto; 
+    margin-top: 10px;
+}
+
+h6{
+    padding-top: 15px;
+}
+
+.tables{
+   
+    background-color:#9DC183;;
+    width: 500px;
+  
+
+}
+.btn{
+    color: white;
+    background-color: black;
+}
