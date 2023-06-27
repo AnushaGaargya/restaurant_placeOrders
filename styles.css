@@ -4,7 +4,7 @@
 
 body{
   background-color: #EDFDFB;
-  background-image: url("bg.jpg");
+  background-image: url("bg2.jpg");
 }
 
 .main {
@@ -35,4 +35,12 @@ h6{
 .btn{
     color: white;
     background-color: black;
+   
+}
+
+.submitbtn{
+    align-content: center;
+    align-items: center;
+    text-align: center;
+
 }

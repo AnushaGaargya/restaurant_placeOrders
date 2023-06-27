@@ -1,5 +1,16 @@
 document.getElementById("user-form").addEventListener('submit', placeOrder);
 
+async function postdata(x){
+    try{
+    const response = await axios.post('https://crudcrud.com/api/825004c7ec63486095d5f36a3eb897ae/placeOrders',
+    x);
+    console.log(response);
+   
+    }
+    catch(error) {
+        console.error(error);}
+    }
+
 function placeOrder(event)
 {
     //prevent the normal submission of the form
@@ -14,27 +25,25 @@ function placeOrder(event)
     orderDetails["dish"] = dish
     orderDetails["price"] = price
 
-    // showOrderOnScreen(orderDetails);
+    postdata(orderDetails);
+ 
+    }
 
-    axios.post('https://crudcrud.com/api/1b72cd14e21a4efba10c70221b7e4755/placeOrders',
-    orderDetails)
-    .then((response) => console.log(response))
-    .catch((err) => console.log(err))
 
-};
-
-window.addEventListener("DOMContentLoaded", () => {
-    axios.get('https://crudcrud.com/api/1b72cd14e21a4efba10c70221b7e4755/placeOrders')
-    .then((response) => {
-    console.log(response)
+async function getdata(){
+    try{
+    const response = await axios.get('https://crudcrud.com/api/825004c7ec63486095d5f36a3eb897ae/placeOrders');
+    console.log(response);
     for(var i=0; i<response.data.length; i++){
         showOrderOnScreen(response.data[i])
-    }
-            })
-    .catch((error) => {
-    console.log(error) 
-    })
+    } 
+}catch(error) {
+    console.error(error);}}
 
+
+
+window.addEventListener("DOMContentLoaded", () => {   
+    getdata();
 });
 
 
@@ -54,47 +63,54 @@ function showOrderOnScreen(X){
     deleteBtn.appendChild(document.createTextNode('Delete'));
     li.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", delete_fn);
+    
+   
+    async function getId_and_delete(t, d, p){
+        try{
+        const response = await axios.get('https://crudcrud.com/api/825004c7ec63486095d5f36a3eb897ae/placeOrders');
+        console.log(response);
+
+        for(var i=0; i<response.data.length; i++){
+            if (response.data[i].table == t && response.data[i].dish == d && response.data[i].price == p){
+                const delete_id = response.data[i]._id;
+                console.log(delete_id);
+                axios.delete(`https://crudcrud.com/api/825004c7ec63486095d5f36a3eb897ae/placeOrders/${delete_id}`)
+                break;
+              
+            }
+
+        }
+        
+    }catch(error) {
+        console.error(error);}}
+    
 
 
-    function delete_fn(e){
+    async function delete_fn(e){
+        try{
         if(e.target.classList.contains('delete')){
             if(confirm('Are you sure?')){
                 var item = e.target.parentElement; //the parent element of delete btn is list item. 
                 console.log(item)
+
                 var ui_table = item.parentNode.id;
                 console.log(ui_table);
+
                 document.getElementById(table).removeChild(item);
         
-    
-                // const table = (item.textContent).split('-')[0]
-                // console.log(first);
                 const ui_dish = (item.textContent).split('-')[0]
                 console.log(ui_dish);
+
                 const ui_price = (item.textContent).split('-')[1]
                 console.log(ui_price);
-    
-                axios.get("https://crudcrud.com/api/1b72cd14e21a4efba10c70221b7e4755/placeOrders")
-                .then((response) => {
-                console.log(response)
-                for(var i=0; i<response.data.length; i++){
-                    if (response.data[i].table == ui_table && response.data[i].dish == ui_dish && response.data[i].price == ui_price){
-                        delete_id = response.data[i]._id;
-                    }
-                } console.log(delete_id);
-                axios.delete(`https://crudcrud.com/api/1b72cd14e21a4efba10c70221b7e4755/placeOrders/${delete_id}`)
-                .then((response) => {
-                console.log(response)})
-                .catch((error) => {
-                    console.log(error) 
-                    })
-                        })
-                .catch((error) => {
-                console.log(error) 
-                })
-    
-               
+                
+                getId_and_delete(ui_table, ui_dish, ui_price);  
             }
         }
-    }
+
+    }catch(error) {
+        console.error(error);}}
+    
 }
+
 
